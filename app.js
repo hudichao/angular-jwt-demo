@@ -17,6 +17,11 @@ function authService($window) {
   var self = this;
 
   // Add JWT methods here
+  self.parseJwt = function(token) {
+    var base64Url = token.split(".")[1];
+    var base64 = base64Url.replace("-", "+").replace("_", "/");
+    return JSON.parse($window.atob(base64));
+  }
 }
 
 function userService($http, API, auth) {
@@ -39,7 +44,7 @@ function userService($http, API, auth) {
     })
   }
 
-  
+
 }
 
 // We won't touch anything in here
