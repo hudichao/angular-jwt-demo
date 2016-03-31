@@ -59,6 +59,9 @@ function userService($http, API, auth) {
       return false;
     }
   }
+  self.logout = function() {
+    $window.localStorage.removeItem('jwtToken');
+  }
 
 
 }
