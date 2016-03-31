@@ -16,7 +16,8 @@ function authInterceptor(API, auth) {
         auth.saveToken(res.data.token);
       }
       return res;
-    },
+    }
+
   }
 }
 
@@ -35,6 +36,19 @@ function authService($window) {
   }
   self.getToken = function() {
     return $window.localStorage['jwtToken'];
+  }
+  self.isAuthed = function() {
+    console.log('get isauthed');
+    var token = self.getToken();
+    if (token) {
+      var params = self.parseJwt(token);
+      return Math.round(new Date().getTime() / 1000) < params.exp;
+    } else {
+      return false;
+    }
+  }
+  self.logout = function() {
+    $window.localStorage.removeItem('jwtToken');
   }
 }
 
@@ -57,20 +71,6 @@ function userService($http, API, auth) {
       password: password
     })
   }
-  self.isAuthed = function() {
-    var token = self.getToken();
-    if (toke) {
-      var params = self.parseJwt(token);
-      return Math.round(new Date().getTime() / 1000) > params.exp;
-    } else {
-      return false;
-    }
-  }
-  self.logout = function() {
-    $window.localStorage.removeItem('jwtToken');
-  }
-
-
 }
 
 // We won't touch anything in here
