@@ -50,6 +50,15 @@ function userService($http, API, auth) {
       password: password
     })
   }
+  self.isAuthed = function() {
+    var token = self.getToken();
+    if (toke) {
+      var params = self.parseJwt(token);
+      return Math.round(new Date().getTime() / 1000) > params.exp;
+    } else {
+      return false;
+    }
+  }
 
 
 }
