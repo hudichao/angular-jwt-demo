@@ -16,6 +16,19 @@ function authInterceptor(API, auth) {
         auth.saveToken(res.data.token);
       }
       return res;
+    },
+
+    responseError: function(res) {
+      if (res.config.url.indexOf(API) === 0 && res.status === 401) {
+        alert("You need login!");
+      }
+      if (res.config.url.indexOf(API) === 0 && res.status === 422) {
+        alert("Unprocessable Entity User already exists");
+      }
+      if (res.config.url.indexOf(API) === 0 && res.status === 400) {
+        alert("Bad Request");
+      }
+      return res;
     }
 
   }
